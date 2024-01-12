@@ -16,6 +16,12 @@ These services are containerized using Docker and can be run using Docker Compos
 
 This diagram illustrates the flow of data between the different components of our system.
 
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/SPlyJV9jEB3dN8TueogB8fIbw.svg)](https://asciinema.org/a/SPlyJV9jEB3dN8TueogB8fIbw)
+
+
 ## System Components
 
 ### 1. analytics_cache_client (Simulator for Android App)
