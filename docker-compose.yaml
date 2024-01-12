@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  analytics_cache_client:
+    build:
+      context: ./analytics_cache_client
+    environment:
+      - ANALYTICS_SERVER_PORT=8080
+      - ANALYTICS_SERVER_HOST=analytics_cache_server
+    links:
+      - analytics_cache_server
+    depends_on:
+      analytics_cache_server:
+        condition: service_healthy
+
+  analytics_cache_server:
+    build:
+      context: ./analytics_cache_server
+    volumes:
+      - ./data:/data
+    environment:
+      - PORT=8080
+      - HOST=0.0.0.0
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/health"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  hitchhiker_source_server:
+    build:
+      context: ./hitchhiker_source_server
+    volumes:
+      - ./data:/data
+    environment:
+      - HITCHHIKER_HOST=0.0.0.0
+      - HITCHHIKER_PORT=50051
+      - SOURCE_ID=pilot04
+      - ANALYTICS_DATA_DIR=/data/countly/received
+      - MAX_STORAGE_MB=1 # Delete old data if storage exceeds this limit in MB
+    ports:
+      - 50051:50051
+
+  hitchhiker_source_client:
+    build:
+      context: ./hitchhiker_source_client
+    environment:
+      - HITCHHIKER_HOST=hitchhiker_source_server
+      - HITCHHIKER_PORT=50051
+    links:
+      - hitchhiker_source_server
