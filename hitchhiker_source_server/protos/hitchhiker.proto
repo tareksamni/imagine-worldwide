@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package hitchhiker;
+
+service HitchhikerSource {
+  rpc GetSourceId (GetSourceIdRequest) returns (GetSourceIdResponse) {}
+  rpc GetDownloads (GetDownloadsRequest) returns (GetDownloadsResponse) {}
+  rpc DownloadFile (DownloadFileRequest) returns (DownloadFileResponse) {}
+  rpc MarkDelivered (MarkDeliveredRequest) returns (MarkDeliveredResponse) {}
+}
+
+message GetSourceIdRequest {}
+
+message GetSourceIdResponse {
+  string source_id = 1;
+}
+
+message GetDownloadsRequest {
+  string client_id = 1;
+  string destination_id = 2;
+}
+
+message GetDownloadsResponse {
+  repeated string file_list = 1;
+}
+
+message DownloadFileRequest {
+  string client_id = 1;
+  repeated string file_list = 2;
+}
+
+message File{
+  string file_id = 1;
+  string file_name = 2;
+  string type = 3;
+  bytes blob = 4;
+}
+
+message DownloadFileResponse {
+  repeated File file = 1;
+}
+
+message MarkDeliveredRequest {
+  string client_id = 1;
+  string destination_id = 2;
+  repeated string file_list = 3;
+}
+
+message MarkDeliveredResponse {}
