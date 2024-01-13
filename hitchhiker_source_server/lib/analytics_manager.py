@@ -13,7 +13,7 @@ class AnalyticsManager:
 
         # Get list of files with their paths and sizes
         files = [(file, os.path.join(self.dir, file), os.path.getsize(os.path.join(self.dir, file)))
-                for file in self.list_of_files()]
+                for file in self.list_of_files() if file.endswith('.json')]
 
         # Sort files by modification time, newest first
         files.sort(key=lambda x: os.path.getmtime(x[1]), reverse=True)
@@ -36,7 +36,7 @@ class AnalyticsManager:
 
     def list_of_files(self):
         # List all files in the directory excluding '.' and '..'
-        return [entry for entry in os.listdir(self.dir) if os.path.isfile(os.path.join(self.dir, entry))]
+        return [entry for entry in os.listdir(self.dir) if os.path.isfile(os.path.join(self.dir, entry)) and entry.endswith('.json')]
 
     def remove_file(self, filename):
         # Delete the specified file
