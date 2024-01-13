@@ -58,4 +58,4 @@ build-iPhoneSimulator/
 # .rubocop-https?--*
 
 # Ignore all logfiles and data folder
-data/*
+data/countly/received/*.json
