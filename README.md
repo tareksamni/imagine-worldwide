@@ -69,7 +69,7 @@ All components are dockerized for easy simulation and isolation. Servers are des
 To run the dockerized components, use the following command:
 
 ```
-mkdir -p data
+mkdir -p data/countly/received
 docker-compose up --build
 ```
 
